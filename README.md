@@ -113,49 +113,50 @@ bleibt jederzeit uneingeschränkt:
 
 ---
 
-## 6. Bild-Konfiguration — WICHTIG für den nächsten Schritt
+## 6. Bild-Konfiguration
 
-Es liegen noch **keine Bilddateien im Repository**. Die Website ist bewusst
-so gebaut, dass sie ohne sie bereits produktionsreif aussieht:
 `src/components/ui/MediaFrame.tsx` prüft serverseitig (`fs.existsSync`), ob
 eine Datei unter dem erwarteten Pfad liegt. Fehlt sie, erscheint ein
 markentypischer, ruhiger Platzhalter (Gradient + Symbol) statt eines kaputten
 Bildes. **Sobald eine Datei unter dem exakten Pfad in `public/` liegt, wird
-sie automatisch verwendet — ohne Code-Änderung.**
+sie automatisch verwendet — ohne Code-Änderung.** Alle Bild-Slots sind
+zentral in `src/lib/content/images.ts` dokumentiert.
 
-Alle Bild-Slots sind zentral in `src/lib/content/images.ts` dokumentiert.
-Empfohlenes Vorgehen: Bilddateien per GitHub „Add file" in die unten
-genannten Zielpfade hochladen; das Einsetzen der jeweils passenden Aufnahme
-aus dem im Chat gesichteten Bildmaterial in diese Slots erfolgt danach als
-Folgeschritt.
+### Status der Bild-Slots
 
-### Zuordnung der im Chat gesichteten Motive zu den Ziel-Slots
+13 von 16 Motiven sind bereits eingebunden (als komprimierte JPEGs,
+optimiert von ~3 MB auf ~150–300 KB pro Bild):
 
-| # | Motiv (Kurzbeschreibung) | Ziel-Pfad |
+| Slot | Ziel-Pfad | Status |
 |---|---|---|
-| Logo hell | Wortmarke schwarz auf weiß | `public/images/logo/aurora-logo-light.png` |
-| Logo dunkel | Wortmarke gold auf schwarz | `public/images/logo/aurora-logo-dark.png` |
-| Fahrzeug-Spotlight | Einzelfahrzeug auf beleuchteter Plattform, Nacht | `public/images/showroom/vehicle-spotlight.jpg` |
-| Showroom außen (Tag) | Gebäude, Sonnenuntergang, 3 Fahrzeuge | `public/images/showroom/exterior-day.jpg` |
-| Showroom außen (Nacht) | Fassade beleuchtet, Logo-Stele, Parkplatz | `public/images/showroom/exterior-night.jpg` |
-| Showroom innen (Halle) | Mehrere Fahrzeuge, Lounge, Empfang | `public/images/showroom/interior-hall.jpg` |
-| Fahrzeug Frontalansicht | LED-Scheinwerfer, Ausstellungsraum | `public/images/vehicles/front-view-showroom.jpg` |
-| Interieur-Detail | Lenkrad, Dashboard, Cockpit | `public/images/vehicles/interior-detail.jpg` |
-| Beratungsbereich | Schreibtisch, Lounge, Blick nach draußen | `public/images/showroom/consulting-lounge.jpg` |
-| Empfangsbereich mit Logo-Wand | Empfangstheke, Fahrzeuge, Lounge | `public/images/showroom/reception-lounge.jpg` |
-| Anlieferung | Fahrzeug wird vom Transporter abgeladen | `public/images/showroom/vehicle-delivery.jpg` |
-| Werkstatt | Mechaniker, „SERVICE"-Schriftzug | `public/images/showroom/workshop-service.jpg` |
-| Werkstatt-Übergabe | Schlüsselübergabe im Werkstattbereich | `public/images/showroom/workshop-handover.jpg` |
-| Wartebereich | Lounge mit „Service & Care"-Bildschirm | `public/images/showroom/service-lounge.jpg` |
-| Schlüsselübergabe | Verkäufer übergibt Schlüssel im Showroom | `public/images/showroom/handover-keys.jpg` |
-| Handschlag/Abschluss | Übergabe von Unterlagen, Dämmerung | `public/images/showroom/handover-handshake.jpg` |
+| Logo hell | `public/images/logo/aurora-logo-light.png` | ✅ eingebunden |
+| Logo dunkel | `public/images/logo/aurora-logo-dark.png` | ✅ eingebunden |
+| Fahrzeug-Spotlight | `public/images/showroom/vehicle-spotlight.jpg` | ✅ eingebunden |
+| Showroom außen (Tag) | `public/images/showroom/exterior-day.jpg` | ✅ eingebunden |
+| Showroom außen (Nacht) | `public/images/showroom/exterior-night.jpg` | ✅ eingebunden |
+| Showroom innen (Halle) | `public/images/showroom/interior-hall.jpg` | ✅ eingebunden |
+| Fahrzeug Frontalansicht | `public/images/vehicles/front-view-showroom.jpg` | ✅ eingebunden |
+| Interieur-Detail | `public/images/vehicles/interior-detail.jpg` | ✅ eingebunden |
+| Beratungsbereich | `public/images/showroom/consulting-lounge.jpg` | ✅ eingebunden |
+| Anlieferung | `public/images/showroom/vehicle-delivery.jpg` | ✅ eingebunden |
+| Werkstatt | `public/images/showroom/workshop-service.jpg` | ✅ eingebunden |
+| Wartebereich | `public/images/showroom/service-lounge.jpg` | ✅ eingebunden |
+| Handschlag/Abschluss | `public/images/showroom/handover-handshake.jpg` | ✅ eingebunden |
+| Empfangsbereich mit Logo-Wand | `public/images/showroom/reception-lounge.jpg` | ⚠️ offen — siehe Hinweis unten |
+| Werkstatt-Übergabe | `public/images/showroom/workshop-handover.jpg` | ⬜ noch nicht geliefert |
+| Schlüsselübergabe (Showroom) | `public/images/showroom/handover-keys.jpg` | ⬜ noch nicht geliefert |
 
-**Nicht verplant (Hinweis zur Prüfung):** Zwei der gesichteten Empfangsbereich-
-Aufnahmen zeigen ein Fahrzeug mit einem Kühlergrill-Design, das stark an ein
-reales Hersteller-Markendesign (BMW-Niere) erinnert. Diese beiden Motive
-wurden bewusst **nicht** in die obige Zuordnung aufgenommen, um keine
-ungeklärte Marken-/Designrechts-Ähnlichkeit zu übernehmen. Vor Verwendung
-bitte prüfen oder durch eine Neugenerierung ohne Markenanlehnung ersetzen.
+Die drei offenen Slots zeigen aktuell den markentypischen Platzhalter — die
+Seite bleibt dadurch vollständig funktionsfähig und hochwertig, auch ohne
+diese drei Bilder.
+
+**Hinweis zur Prüfung:** Die für „Empfangsbereich mit Logo-Wand" gelieferte
+Aufnahme zeigt ein Fahrzeug mit einem Kühlergrill-Design, das stark an ein
+reales Hersteller-Markendesign (BMW-Niere) erinnert. Sie wurde deshalb
+bewusst **nicht** eingebunden, um keine ungeklärte Marken-/Designrechts-
+Ähnlichkeit zu übernehmen. Bitte prüfen oder durch eine Neugenerierung ohne
+Markenanlehnung ersetzen, dann kann sie unter dem oben genannten Pfad
+nachgereicht werden.
 
 ### Formatempfehlung
 
@@ -238,8 +239,9 @@ Verfügbarkeiten erfunden.
 - [ ] Canonical-URLs geprüft (automatisch aus `siteUrl` abgeleitet)
 - [ ] Social-Media-URLs verifiziert (`company.socials` — aktuell aus
       Handles abgeleitet, nicht einzeln bestätigt)
-- [ ] Bilddateien gemäß Abschnitt 6 hochgeladen und geprüft (inkl.
-      Markenrechts-Hinweis zu den zwei ausgeschlossenen Motiven)
+- [x] Bilddateien größtenteils eingebunden (13/16, siehe Abschnitt 6) —
+      noch offen: `workshop-handover.jpg`, `handover-keys.jpg`, sowie
+      `reception-lounge.jpg` (Markenrechts-Hinweis beachten)
 - [ ] Bildrechte an allen verwendeten Aufnahmen bestätigt
 - [ ] Echte Fahrzeugdaten angebunden (Abschnitt 9) oder Bestandsseite bewusst
       im aktuellen „Beratung statt Online-Bestand"-Zustand belassen
