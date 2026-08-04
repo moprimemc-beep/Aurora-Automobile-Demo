@@ -124,7 +124,7 @@ zentral in `src/lib/content/images.ts` dokumentiert.
 
 ### Status der Bild-Slots
 
-15 von 16 Motiven sind eingebunden (als komprimierte JPEGs, optimiert von
+Alle 16 Motive sind eingebunden (als komprimierte JPEGs, optimiert von
 ~3 MB auf ~150–300 KB pro Bild):
 
 | Slot | Ziel-Pfad | Status |
@@ -144,18 +144,16 @@ zentral in `src/lib/content/images.ts` dokumentiert.
 | Handschlag/Abschluss | `public/images/showroom/handover-handshake.jpg` | ✅ eingebunden |
 | Werkstatt-Übergabe | `public/images/showroom/workshop-handover.jpg` | ✅ eingebunden |
 | Schlüsselübergabe (Showroom) | `public/images/showroom/handover-keys.jpg` | ✅ eingebunden |
-| Empfangsbereich mit Logo-Wand | `public/images/showroom/reception-lounge.jpg` | ⚠️ offen — siehe Hinweis unten |
+| Empfangsbereich mit Logo-Wand | `public/images/showroom/reception-lounge.jpg` | ✅ eingebunden — siehe Hinweis unten |
 
-Der eine offene Slot zeigt aktuell den markentypischen Platzhalter — die
-Seite bleibt dadurch vollständig funktionsfähig und hochwertig.
-
-**Hinweis zur Prüfung:** Für „Empfangsbereich mit Logo-Wand" wurden zwei
-Aufnahmen geliefert — beide zeigen dasselbe Fahrzeug mit einem
-Kühlergrill-Design, das stark an ein reales Hersteller-Markendesign
-(BMW-Niere) erinnert. Beide wurden deshalb bewusst **nicht** eingebunden, um
-keine ungeklärte Marken-/Designrechts-Ähnlichkeit zu übernehmen. Bitte prüfen
-oder durch eine Neugenerierung ohne Markenanlehnung ersetzen, dann kann sie
-unter dem oben genannten Pfad nachgereicht werden.
+**Hinweis (Auftraggeber-Entscheidung):** Die für „Empfangsbereich mit
+Logo-Wand" verfügbaren Aufnahmen zeigen ein Fahrzeug mit einem
+Kühlergrill-Design, das an ein reales Hersteller-Markendesign (BMW-Niere)
+erinnert — auf ausdrücklichen Wunsch des Auftraggebers wurde die Aufnahme
+mit der Person im Vordergrund trotzdem eingebunden (der gewählte
+Bildausschnitt zeigt primär die Lounge-Szene, das Fahrzeug ist nur am
+Bildrand sichtbar). Vor einem echten Launch dennoch markenrechtlich prüfen
+oder bei Bedarf durch eine Aufnahme ohne Markenanlehnung ersetzen.
 
 ### Formatempfehlung
 
@@ -238,9 +236,10 @@ Verfügbarkeiten erfunden.
 - [ ] Canonical-URLs geprüft (automatisch aus `siteUrl` abgeleitet)
 - [ ] Social-Media-URLs verifiziert (`company.socials` — aktuell aus
       Handles abgeleitet, nicht einzeln bestätigt)
-- [x] Bilddateien eingebunden (15/16, siehe Abschnitt 6) — noch offen:
-      `reception-lounge.jpg` (Markenrechts-Hinweis beachten)
-- [ ] Bildrechte an allen verwendeten Aufnahmen bestätigt
+- [x] Bilddateien vollständig eingebunden (16/16, siehe Abschnitt 6)
+- [ ] Bildrechte an allen verwendeten Aufnahmen bestätigt — insbesondere
+      `reception-lounge.jpg` markenrechtlich prüfen (Kühlergrill-Ähnlichkeit,
+      siehe Hinweis in Abschnitt 6)
 - [ ] Echte Fahrzeugdaten angebunden (Abschnitt 9) oder Bestandsseite bewusst
       im aktuellen „Beratung statt Online-Bestand"-Zustand belassen
 - [ ] Impressum-Angaben (Handelsregister, USt-ID) durch echte Daten ersetzt
