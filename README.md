@@ -124,8 +124,8 @@ zentral in `src/lib/content/images.ts` dokumentiert.
 
 ### Status der Bild-Slots
 
-13 von 16 Motiven sind bereits eingebunden (als komprimierte JPEGs,
-optimiert von ~3 MB auf ~150–300 KB pro Bild):
+15 von 16 Motiven sind eingebunden (als komprimierte JPEGs, optimiert von
+~3 MB auf ~150–300 KB pro Bild):
 
 | Slot | Ziel-Pfad | Status |
 |---|---|---|
@@ -142,21 +142,20 @@ optimiert von ~3 MB auf ~150–300 KB pro Bild):
 | Werkstatt | `public/images/showroom/workshop-service.jpg` | ✅ eingebunden |
 | Wartebereich | `public/images/showroom/service-lounge.jpg` | ✅ eingebunden |
 | Handschlag/Abschluss | `public/images/showroom/handover-handshake.jpg` | ✅ eingebunden |
+| Werkstatt-Übergabe | `public/images/showroom/workshop-handover.jpg` | ✅ eingebunden |
+| Schlüsselübergabe (Showroom) | `public/images/showroom/handover-keys.jpg` | ✅ eingebunden |
 | Empfangsbereich mit Logo-Wand | `public/images/showroom/reception-lounge.jpg` | ⚠️ offen — siehe Hinweis unten |
-| Werkstatt-Übergabe | `public/images/showroom/workshop-handover.jpg` | ⬜ noch nicht geliefert |
-| Schlüsselübergabe (Showroom) | `public/images/showroom/handover-keys.jpg` | ⬜ noch nicht geliefert |
 
-Die drei offenen Slots zeigen aktuell den markentypischen Platzhalter — die
-Seite bleibt dadurch vollständig funktionsfähig und hochwertig, auch ohne
-diese drei Bilder.
+Der eine offene Slot zeigt aktuell den markentypischen Platzhalter — die
+Seite bleibt dadurch vollständig funktionsfähig und hochwertig.
 
-**Hinweis zur Prüfung:** Die für „Empfangsbereich mit Logo-Wand" gelieferte
-Aufnahme zeigt ein Fahrzeug mit einem Kühlergrill-Design, das stark an ein
-reales Hersteller-Markendesign (BMW-Niere) erinnert. Sie wurde deshalb
-bewusst **nicht** eingebunden, um keine ungeklärte Marken-/Designrechts-
-Ähnlichkeit zu übernehmen. Bitte prüfen oder durch eine Neugenerierung ohne
-Markenanlehnung ersetzen, dann kann sie unter dem oben genannten Pfad
-nachgereicht werden.
+**Hinweis zur Prüfung:** Für „Empfangsbereich mit Logo-Wand" wurden zwei
+Aufnahmen geliefert — beide zeigen dasselbe Fahrzeug mit einem
+Kühlergrill-Design, das stark an ein reales Hersteller-Markendesign
+(BMW-Niere) erinnert. Beide wurden deshalb bewusst **nicht** eingebunden, um
+keine ungeklärte Marken-/Designrechts-Ähnlichkeit zu übernehmen. Bitte prüfen
+oder durch eine Neugenerierung ohne Markenanlehnung ersetzen, dann kann sie
+unter dem oben genannten Pfad nachgereicht werden.
 
 ### Formatempfehlung
 
@@ -239,8 +238,7 @@ Verfügbarkeiten erfunden.
 - [ ] Canonical-URLs geprüft (automatisch aus `siteUrl` abgeleitet)
 - [ ] Social-Media-URLs verifiziert (`company.socials` — aktuell aus
       Handles abgeleitet, nicht einzeln bestätigt)
-- [x] Bilddateien größtenteils eingebunden (13/16, siehe Abschnitt 6) —
-      noch offen: `workshop-handover.jpg`, `handover-keys.jpg`, sowie
+- [x] Bilddateien eingebunden (15/16, siehe Abschnitt 6) — noch offen:
       `reception-lounge.jpg` (Markenrechts-Hinweis beachten)
 - [ ] Bildrechte an allen verwendeten Aufnahmen bestätigt
 - [ ] Echte Fahrzeugdaten angebunden (Abschnitt 9) oder Bestandsseite bewusst
