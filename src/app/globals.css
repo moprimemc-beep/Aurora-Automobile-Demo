@@ -1,0 +1,151 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   AURORA AUTOMOBILE — DESIGN TOKENS
+   Night Drive / Performance Luxury Showroom System
+   ========================================================================== */
+
+@theme {
+  /* ---- Typography -------------------------------------------------- */
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono:
+    ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Menlo, Consolas, monospace;
+
+  /* ---- Base surfaces (deep, layered dark) --------------------------- */
+  --color-base-950: #07080a;
+  --color-base-900: #0b0c0f;
+  --color-base-850: #0f1114;
+  --color-base-800: #14161a;
+  --color-base-700: #1b1d22;
+  --color-base-600: #24272d;
+  --color-base-500: #33363d;
+
+  /* ---- Hairlines ------------------------------------------------------ */
+  --color-line-500: #2a2d33;
+  --color-line-400: #3a3d44;
+
+  /* ---- Ink (text on dark) -------------------------------------------- */
+  --color-ink-50: #f6f5f1;
+  --color-ink-200: #dcdbd6;
+  --color-ink-400: #9a9c9f;
+  --color-ink-600: #6b6d71;
+
+  /* ---- Warm contrast surface (Showroom / Über uns section) ----------- */
+  --color-warm-100: #ece7de;
+  --color-warm-200: #ddd6c9;
+  --color-warm-ink: #171613;
+
+  /* ---- Accent — Aurora Gold (matches brand mark) ---------------------- */
+  --color-accent-300: #ecd9b0;
+  --color-accent-400: #ddc190;
+  --color-accent-500: #c9a468;
+  --color-accent-600: #a9854e;
+  --color-accent-700: #8a6b3d;
+
+  /* ---- Status ----------------------------------------------------------- */
+  --color-status-live: #7fae7a;
+
+  /* ---- Radius ------------------------------------------------------- */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+
+  /* ---- Easing / Motion ------------------------------------------------ */
+  --ease-showroom: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-precise: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ---- Shadows / Glow (used sparingly) --------------------------------- */
+  --shadow-glow-accent: 0 0 40px -8px color-mix(in srgb, var(--color-accent-500) 45%, transparent);
+
+  /* ---- Fonts feature ---------------------------------------------------- */
+  --tracking-label: 0.16em;
+}
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--color-base-950);
+  color: var(--color-ink-200);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ==========================================================================
+   Mobile viewport: vertical scroll must always survive menu/dialog locks.
+   ========================================================================== */
+html,
+body {
+  overflow-x: hidden;
+}
+
+body[data-scroll-locked="true"] {
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   Focus visibility — accessibility baseline
+   ========================================================================== */
+:focus-visible {
+  outline: 2px solid var(--color-accent-500);
+  outline-offset: 3px;
+  border-radius: var(--radius-xs);
+}
+
+::selection {
+  background-color: var(--color-accent-500);
+  color: var(--color-base-950);
+}
+
+/* ==========================================================================
+   Skip link
+   ========================================================================== */
+.skip-link {
+  position: fixed;
+  top: -100%;
+  left: 1rem;
+  z-index: 100;
+  background: var(--color-accent-500);
+  color: var(--color-base-950);
+  padding: 0.75rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  transition: top 0.2s var(--ease-precise);
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* ==========================================================================
+   Reduced motion — hard stop for all decorative movement
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ==========================================================================
+   Fine hairline grid texture — subtle, used behind hero/section labels only
+   ========================================================================== */
+.bg-grain {
+  background-image: radial-gradient(color-mix(in srgb, var(--color-ink-50) 4%, transparent) 1px, transparent 1px);
+  background-size: 3px 3px;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
