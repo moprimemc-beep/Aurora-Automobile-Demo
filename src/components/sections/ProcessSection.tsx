@@ -1,21 +1,27 @@
+import { getLocale, getTranslations } from "next-intl/server";
 import { Section } from "@/components/ui/Section";
 import { Container } from "@/components/ui/Container";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { MediaFrame } from "@/components/ui/MediaFrame";
 import { Reveal } from "@/components/motion/Reveal";
-import { processSteps } from "@/lib/content/process";
-import { IMAGE_SLOTS } from "@/lib/content/images";
+import { getProcessSteps } from "@/lib/content/process";
+import { IMAGE_SLOTS, imageAlt } from "@/lib/content/images";
+import type { Locale } from "@/i18n/routing";
 
-export function ProcessSection() {
+export async function ProcessSection() {
+  const t = await getTranslations("process");
+  const locale = (await getLocale()) as Locale;
+  const processSteps = getProcessSteps(locale);
+
   return (
     <Section tone="base">
       <Container>
         <Reveal>
-          <SectionLabel number="06">Ablauf</SectionLabel>
+          <SectionLabel number="06">{t("eyebrow")}</SectionLabel>
         </Reveal>
         <Reveal delay={0.06}>
           <h2 className="text-ink-50 mt-6 max-w-xl text-3xl leading-tight font-semibold tracking-tight sm:text-4xl lg:text-5xl">
-            Vom ersten Gespräch bis zur Übergabe.
+            {t("title")}
           </h2>
         </Reveal>
 
@@ -31,9 +37,9 @@ export function ProcessSection() {
                   <div className="relative hidden aspect-square w-[88px] sm:block">
                     <MediaFrame
                       src={image.path}
-                      alt={image.alt}
+                      alt={imageAlt(step.image, locale)}
                       className="h-full rounded-md"
-                      devLabel={`Prozessschritt ${step.number}`}
+                      devLabel={`Process step ${step.number}`}
                     />
                   </div>
                   <div>

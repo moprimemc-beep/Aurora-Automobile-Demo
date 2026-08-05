@@ -1,3 +1,5 @@
+import type { Locale } from "@/i18n/routing";
+
 /**
  * Leistungen — ausschließlich die vom Auftraggeber bestätigte Liste.
  * Beschreibungstexte sind allgemeine, branchenübliche Erklärungen der
@@ -18,7 +20,7 @@ export type Service = {
   benefit: string;
 };
 
-export const serviceCategories: ServiceCategory[] = [
+const de: ServiceCategory[] = [
   {
     id: "verkauf",
     title: "Fahrzeugverkauf & Beratung",
@@ -28,7 +30,8 @@ export const serviceCategories: ServiceCategory[] = [
         slug: "premium-gebrauchtwagen",
         title: "Premium Gebrauchtwagen",
         text: "Ausgewählte, geprüfte Fahrzeuge aus dem Premiumsegment — von jungen Gebrauchten bis zu gepflegten Einzelstücken.",
-        benefit: "Sie erhalten ein Fahrzeug mit nachvollziehbarem Zustand statt anonymer Kleinanzeige.",
+        benefit:
+          "Sie erhalten ein Fahrzeug mit nachvollziehbarem Zustand statt anonymer Kleinanzeige.",
       },
       {
         slug: "neuwagenvermittlung",
@@ -163,8 +166,160 @@ export const serviceCategories: ServiceCategory[] = [
   },
 ];
 
-export const allServices: Service[] = serviceCategories.flatMap((c) => c.services);
+const en: ServiceCategory[] = [
+  {
+    id: "verkauf",
+    title: "Sales & Advice",
+    intro: "From the first selection to a well-informed purchase decision.",
+    services: [
+      {
+        slug: "premium-gebrauchtwagen",
+        title: "Premium Used Cars",
+        text: "Selected, inspected vehicles from the premium segment — from young used cars to well-kept individual pieces.",
+        benefit: "You get a vehicle with a traceable condition, not an anonymous listing.",
+      },
+      {
+        slug: "neuwagenvermittlung",
+        title: "New Car Brokerage",
+        text: "We source new vehicles that match your requirements and support you through the ordering process.",
+        benefit: "One point of contact for selection, configuration and ordering.",
+      },
+      {
+        slug: "fahrzeugbewertung",
+        title: "Vehicle Valuation",
+        text: "A digital and personal assessment of your vehicle's current market value.",
+        benefit: "A transparent basis for sale, trade-in or insurance.",
+      },
+    ],
+  },
+  {
+    id: "ankauf-finanzierung",
+    title: "Buy-Back & Financing",
+    intro: "Fair terms for your current vehicle and your next one.",
+    services: [
+      {
+        slug: "fahrzeugankauf",
+        title: "Vehicle Buy-Back",
+        text: "We buy vehicles independent of any purchase you make with us.",
+        benefit: "An uncomplicated way to part with a vehicle.",
+      },
+      {
+        slug: "inzahlungnahme",
+        title: "Trade-In",
+        text: "Your current vehicle is assessed transparently and credited toward your new purchase.",
+        benefit: "One appointment, one contact, one process.",
+      },
+      {
+        slug: "finanzierung",
+        title: "Financing",
+        text: "Tailored financing solutions matched to your personal situation.",
+        benefit: "Predictable monthly instalments instead of generic standard offers.",
+      },
+      {
+        slug: "leasing",
+        title: "Leasing",
+        text: "Flexible leasing models for privately and commercially used vehicles.",
+        benefit: "Mobility without long-term capital commitment.",
+      },
+      {
+        slug: "garantiepakete",
+        title: "Warranty Packages",
+        text: "Additional warranty options for more peace of mind after purchase.",
+        benefit: "Less financial risk from unexpected repairs.",
+      },
+    ],
+  },
+  {
+    id: "werkstatt",
+    title: "Workshop & Service",
+    intro: "A master workshop for maintenance, inspection and repair.",
+    services: [
+      {
+        slug: "werkstattservice",
+        title: "Workshop Service",
+        text: "General maintenance and repair work carried out by our workshop team.",
+        benefit: "One trusted workshop for all recurring work on your vehicle.",
+      },
+      {
+        slug: "inspektionen",
+        title: "Inspections",
+        text: "Regular inspections carried out to manufacturer specifications.",
+        benefit: "Preserved value and reliability throughout the vehicle's life.",
+      },
+      {
+        slug: "hu-au",
+        title: "MOT / Emissions Test",
+        text: "Organisation and preparation of the periodic roadworthiness (MOT) and emissions inspection.",
+        benefit: "One appointment for testing and the necessary preparation.",
+      },
+      {
+        slug: "reifenservice",
+        title: "Tyre Service",
+        text: "Tyre changes, storage and advice on the right tyres for your vehicle.",
+        benefit: "Seasonal changeovers without needing your own storage space.",
+      },
+      {
+        slug: "klimaservice",
+        title: "Air Conditioning Service",
+        text: "Inspection, maintenance and refilling of your vehicle's air conditioning system.",
+        benefit: "Reliable climate control in every season.",
+      },
+      {
+        slug: "smart-repair",
+        title: "Smart Repair",
+        text: "Targeted repair of minor paint and bodywork damage.",
+        benefit: "Fast, precise repair without a full repaint.",
+      },
+      {
+        slug: "unfallinstandsetzung",
+        title: "Accident Repair",
+        text: "Professional repair following accident damage.",
+        benefit: "One point of contact from damage assessment to handover.",
+      },
+    ],
+  },
+  {
+    id: "pflege-zulassung",
+    title: "Detailing & Registration",
+    intro: "The final finishing touch — and the administrative path to your own plates.",
+    services: [
+      {
+        slug: "fahrzeugaufbereitung",
+        title: "Vehicle Detailing",
+        text: "Professional interior and exterior detailing before handover or sale.",
+        benefit: "A vehicle in the best possible visual condition.",
+      },
+      {
+        slug: "fahrzeugpflege",
+        title: "Vehicle Care",
+        text: "Regular care services to preserve your vehicle's value.",
+        benefit: "Less effort, a well-kept vehicle over the long term.",
+      },
+      {
+        slug: "hol-und-bringservice",
+        title: "Pick-Up & Drop-Off Service",
+        text: "Collection and return of your vehicle for workshop or service appointments.",
+        benefit: "Less time spent on appointments around your vehicle.",
+      },
+      {
+        slug: "zulassungsservice",
+        title: "Registration Service",
+        text: "We handle the registration of your new vehicle.",
+        benefit: "One less trip to the authorities for you.",
+      },
+    ],
+  },
+];
 
+export function getServiceCategories(locale: Locale): ServiceCategory[] {
+  return locale === "de" ? de : en;
+}
+
+export function getAllServices(locale: Locale): Service[] {
+  return getServiceCategories(locale).flatMap((c) => c.services);
+}
+
+/** Slugs sind locale-unabhängig — dienen als stabiler Schlüssel. */
 export const featuredServiceSlugs = [
   "premium-gebrauchtwagen",
   "finanzierung",

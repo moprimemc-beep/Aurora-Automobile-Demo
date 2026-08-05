@@ -1,0 +1,250 @@
+{
+  "common": {
+    "skipToContent": "Skip to content"
+  },
+  "meta": {
+    "titleDefault": "{shortName} — Premium Dealership in {city}",
+    "titleTemplate": "{page} — {shortName}"
+  },
+  "nav": {
+    "vehicles": "Vehicles",
+    "services": "Services",
+    "showroom": "Showroom",
+    "contact": "Contact",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "primaryLabel": "Main navigation",
+    "mobileLabel": "Mobile",
+    "homeAria": "Aurora Automobile — Homepage"
+  },
+  "cta": {
+    "requestVehicle": "Request a vehicle",
+    "bookTestDrive": "Book a test drive"
+  },
+  "languageSwitch": {
+    "label": "Language",
+    "switchTo": "Switch to {language}",
+    "en": "English",
+    "de": "German"
+  },
+  "footer": {
+    "companyHeading": "Company",
+    "serviceHeading": "Service",
+    "contactHeading": "Contact",
+    "testDrive": "Test drive",
+    "financing": "Financing",
+    "workshop": "Workshop",
+    "buyback": "Vehicle buy-back",
+    "imprint": "Imprint",
+    "privacy": "Privacy policy",
+    "socialAria": "Aurora Automobile on {platform}",
+    "closingLine": "{city}. Mobility with ambition.",
+    "rights": "© {year} {name}. All rights reserved.",
+    "legalAria": "Legal"
+  },
+  "hero": {
+    "metaTag": "Dealership & Master Workshop",
+    "headline1": "Premium vehicles.",
+    "headline2": "Personal advice.",
+    "headline3": "Trust earned.",
+    "subtext": "Your premium dealership in {city} for high-quality new and used vehicles — with personal advice, transparent financing and our own master workshop.",
+    "stockLabel": "vehicles in stock",
+    "hoursShortLabel": "Mon–Fri",
+    "sinceLabel": "Since"
+  },
+  "brandStatement": {
+    "eyebrow": "Brand Ethos",
+    "title": "A vehicle is more than mobility.",
+    "paragraph1": "{shortName} stands for a clear position: vehicles are carefully selected, inspected and explained — not just sold. Personal advice starts before the first test drive and doesn't end at handover.",
+    "paragraph2": "Trust, quality and transparency shape every conversation in our showroom in {city} — from vehicle selection to financing."
+  },
+  "segments": {
+    "eyebrow": "In the Showroom",
+    "title": "Selected for the next mile.",
+    "intro": "Over {count} vehicles in stock, ready to go — on site and updated daily. Our team is happy to advise you on suitable models from our stock.",
+    "hallCaption": "Showroom floor",
+    "stockCaption": "Currently in stock",
+    "specializationLabel": "Our specialisation",
+    "cta": "Discover vehicles"
+  },
+  "servicesTeaser": {
+    "eyebrow": "Services",
+    "title": "Service that thinks ahead.",
+    "viewAll": "View all services"
+  },
+  "showroomTrust": {
+    "eyebrow": "Showroom Experience",
+    "title": "Personal advice, not a queue.",
+    "text": "Carefully inspected vehicles, transparent vehicle history and a team that takes its time — our showroom in {city} is built for personal advice, not throughput.",
+    "cta": "Visit the showroom",
+    "reviewsLabel": "Google reviews"
+  },
+  "whyAurora": {
+    "eyebrow": "Why Aurora",
+    "title": "Reasons that matter day to day."
+  },
+  "process": {
+    "eyebrow": "Process",
+    "title": "From the first conversation to handover."
+  },
+  "aboutTeaser": {
+    "eyebrow": "About Us",
+    "title": "The ambition behind the showroom.",
+    "paragraph": "Since {foundingYear}, {shortName} in {city} has stood for buying a vehicle with a personal touch. Led by {management}, a {employeeCount}-strong team across sales, advice and the workshop works under one roof.",
+    "cta": "More about us"
+  },
+  "contactCta": {
+    "title": "Ready for the next drive?",
+    "text": "Arrange a personal consultation or send us your question — our team in {city} will get back to you shortly."
+  },
+  "vehiclesPage": {
+    "eyebrow": "Vehicles",
+    "title": "Vehicles at a glance.",
+    "intro": "Over {count} vehicles ready to go — carefully selected and personally presented. From young used cars to premium models.",
+    "specializationLabel": "Our specialisation",
+    "exteriorAlt": "Showroom exterior"
+  },
+  "emptyState": {
+    "title": "Stock not yet browsable online",
+    "text": "Our full stock of over {count} vehicles isn't yet searchable online. Our sales team is happy to advise you personally on currently available models in your preferred category.",
+    "ctaRequest": "Request a vehicle"
+  },
+  "vehicleCard": {
+    "yearLabel": "Year",
+    "mileageLabel": "Mileage",
+    "fuelLabel": "Fuel type",
+    "powerLabel": "Power",
+    "priceOnRequest": "Price on request",
+    "detailsCta": "View details"
+  },
+  "servicesPage": {
+    "eyebrow": "Services",
+    "title": "For your mobility. From the start.",
+    "intro": "From the first consultation through financing and buy-back to ongoing maintenance in our master workshop — one point of contact for the entire vehicle lifecycle.",
+    "consultationCta": "Request a consultation"
+  },
+  "showroomPage": {
+    "eyebrow": "Showroom",
+    "title": "The ambition behind the showroom.",
+    "intro": "Since {foundingYear}, {shortName} has combined buying a vehicle with personal advice — in a modern showroom with its own master workshop in {city}.",
+    "chapter1Eyebrow": "Ethos",
+    "chapter1Title": "What Aurora Automobile stands for.",
+    "chapter1Text": "Trust, quality and transparency aren't buzzwords here — they're the standard for every conversation. As a premium dealership, we see ourselves as your point of contact for the whole journey, from first interest to ongoing maintenance.",
+    "chapter2Eyebrow": "Selection",
+    "chapter2Title": "How vehicles are selected.",
+    "chapter2Text": "Our stock of over {count} vehicles is continuously inspected, prepared and replenished — from young used cars to premium models across {specializations} and {lastSpecialization}.",
+    "chapter3Eyebrow": "Advice",
+    "chapter3Title": "How our advice works.",
+    "chapter3Text": "Advice starts before the first test drive: we listen, explain vehicle history and equipment in a clear way, and work out a suitable financing or leasing solution together — with no time pressure.",
+    "chapter4Eyebrow": "Team",
+    "chapter4Title": "Who's behind Aurora Automobile.",
+    "chapter4Text": "Led by {management}, a {employeeCount}-strong team across sales, advice and the workshop works under one roof — for short paths and one consistent point of contact.",
+    "locationEyebrow": "Location",
+    "locationTitle": "Where to find us.",
+    "addressLabel": "Address",
+    "salesHoursLabel": "Sales opening hours",
+    "workshopHoursLabel": "Workshop opening hours",
+    "contactCta": "Get in touch"
+  },
+  "contactPage": {
+    "eyebrow": "Contact",
+    "title": "Let's talk about your next vehicle.",
+    "intro": "Whether it's a vehicle enquiry, a test drive or advice on financing and buy-back — our team in {city} will get back to you shortly."
+  },
+  "testDrivePage": {
+    "eyebrow": "Test Drive",
+    "title": "Book your showroom appointment.",
+    "intro": "Let us know which vehicle interests you — we'll get back to you with appointment options for a personal test drive in {city}.",
+    "imageAlt": "Test drive page — vehicle view"
+  },
+  "mapLink": {
+    "label": "Open route in Google Maps"
+  },
+  "form": {
+    "nameLabel": "Name",
+    "companyLabel": "Company",
+    "emailLabel": "Email",
+    "phoneLabel": "Phone",
+    "subjectLabel": "Subject",
+    "subjectPlaceholder": "Please select",
+    "subject_vehicle_inquiry": "Vehicle enquiry",
+    "subject_test_drive": "Test drive",
+    "subject_financing_leasing": "Financing & leasing",
+    "subject_buyback_tradein": "Buy-back & trade-in",
+    "subject_workshop_service": "Workshop & service",
+    "subject_other": "Other",
+    "vehicleInterestLabel": "Vehicle of interest",
+    "vehicleInterestPlaceholder": "e.g. make, model",
+    "preferredDateLabel": "Preferred date",
+    "messageLabel": "Message",
+    "messagePlaceholderGeneral": "How can we help you?",
+    "messagePlaceholderTestDrive": "Which vehicle would you like to test drive?",
+    "optionalSuffix": "(optional)",
+    "privacyPrefix": "I agree to the processing of my details in accordance with the",
+    "privacyLinkText": "privacy policy",
+    "privacySuffix": ".",
+    "submit": "Send message",
+    "submitting": "Sending…",
+    "successTitle": "Your enquiry has been sent.",
+    "successText": "Thank you — our team will get back to you shortly.",
+    "notConfiguredTitle": "Form submission currently unavailable",
+    "notConfiguredText": "Direct submission via this form isn't active right now. Please contact us by phone or email in the meantime — we'll respond right away.",
+    "errorText": "Something went wrong while sending. Please try again or contact us directly at {phone}.",
+    "validationName": "Please enter your name.",
+    "validationEmail": "Please enter a valid email address.",
+    "validationSubject": "Please select a subject.",
+    "validationMessage": "Your message should be at least 10 characters long.",
+    "validationPrivacy": "Please agree to the privacy policy."
+  },
+  "notFound": {
+    "eyebrow": "Page Not Found",
+    "title": "This road leads nowhere.",
+    "text": "The page you're looking for doesn't exist or has moved. Head back to the homepage or explore our vehicle stock.",
+    "ctaHome": "Back to homepage",
+    "ctaVehicles": "Discover vehicles"
+  },
+  "impressum": {
+    "eyebrow": "Legal",
+    "title": "Imprint",
+    "notice": "Notice: this website is a demo and presentation project. Company name, contact details and commercial register / tax details are fictitious and serve presentation purposes only.",
+    "section1Title": "Information pursuant to § 5 TMG",
+    "section2Title": "Represented by",
+    "section2Text": "Managing Directors: {management}",
+    "section3Title": "Contact",
+    "section3Phone": "Phone",
+    "section3Email": "Email",
+    "section4Title": "Register entry",
+    "section4Text1": "Entry in the Commercial Register.",
+    "section4Court": "Register court",
+    "section4Number": "Register number",
+    "section5Title": "VAT ID",
+    "section5Text": "VAT identification number pursuant to § 27a of the German VAT Act (UStG):",
+    "section6Title": "Responsible for content pursuant to § 55 (2) RStV",
+    "section7Title": "EU dispute resolution",
+    "section7Text": "The European Commission provides a platform for online dispute resolution (ODR), available at <link>ec.europa.eu/consumers/odr</link>. We are not obliged and not willing to participate in dispute resolution proceedings before a consumer arbitration board.",
+    "section8Title": "Liability for content",
+    "section8Text": "As a service provider, we are responsible for our own content on these pages under general law pursuant to § 7 (1) TMG. However, pursuant to §§ 8 to 10 TMG, we as a service provider are not obliged to monitor transmitted or stored third-party information or to investigate circumstances that indicate unlawful activity.",
+    "section9Title": "Liability for links",
+    "section9Text": "Our offer contains links to external third-party websites over whose content we have no influence. The respective provider is always responsible for the content of the linked pages. Should we become aware of any legal infringement, we will remove such links immediately."
+  },
+  "datenschutz": {
+    "eyebrow": "Legal",
+    "title": "Privacy Policy",
+    "notice": "Notice: this website is a demo and presentation project. Company details are fictitious. This policy describes the actual technical data processing of this website and serves as a basis for a legal review before a real launch (see README, \"Launch Checklist\" section).",
+    "section1Title": "1. Controller",
+    "section1Email": "Email",
+    "section1Phone": "Phone",
+    "section2Title": "2. Hosting and server log files",
+    "section2Text": "When you access this website, the hosting provider automatically processes technical access data (including IP address, date and time of access, page accessed, browser used) in order to technically provide and secure the operation of the website (Art. 6 (1) (f) GDPR). The specific hosting provider will be added here before going live.",
+    "section3Title": "3. Contact form",
+    "section3Text": "If you use the contact or test-drive form, we process the data you enter (including name, email address, phone number, message) solely to handle your enquiry (Art. 6 (1) (b) GDPR). Data is not passed on to third parties unless necessary to process your enquiry (e.g. delivery via a technical email service provider).",
+    "section4Title": "4. Cookies and tracking",
+    "section4Text": "This website currently does not use analytics, marketing or tracking cookies. Should such services be integrated at a later date, this will only happen after prior, informed consent via a consent-management tool and an update to this policy.",
+    "section5Title": "5. External links and maps",
+    "section5Text": "Links to external services (e.g. Google Maps, social networks) open the respective platform in a new tab. No external content is automatically embedded, nor is data transmitted to third parties, before you actively click such a link.",
+    "section6Title": "6. Your rights",
+    "section6Text": "You have the right to access, rectification, erasure, restriction of processing, data portability and objection to the processing of your personal data. You also have the right to lodge a complaint with a data protection supervisory authority. Please contact {email} for this purpose.",
+    "section7Title": "7. Storage period",
+    "section7Text": "Data submitted via the contact form is only stored for as long as necessary to process your enquiry and to fulfil statutory retention obligations."
+  }
+}

@@ -1,21 +1,28 @@
+import { getLocale, getTranslations } from "next-intl/server";
 import { Button } from "@/components/ui/Button";
 import { MediaFrame } from "@/components/ui/MediaFrame";
 import { ImageReveal } from "@/components/motion/ImageReveal";
 import { Reveal } from "@/components/motion/Reveal";
-import { company } from "@/lib/content/company";
-import { IMAGE_SLOTS } from "@/lib/content/images";
-import { primaryCta, secondaryCta } from "@/lib/content/nav";
+import { company, getCompanyText } from "@/lib/content/company";
+import { IMAGE_SLOTS, imageAlt } from "@/lib/content/images";
+import { primaryCtaHref, secondaryCtaHref } from "@/lib/content/nav";
+import type { Locale } from "@/i18n/routing";
 
-export function Hero() {
+export async function Hero() {
+  const locale = (await getLocale()) as Locale;
+  const text = getCompanyText(locale);
+  const t = await getTranslations("hero");
+  const tCta = await getTranslations("cta");
+
   return (
     <section className="relative flex min-h-[94vh] items-end overflow-hidden lg:min-h-[92vh]">
       <ImageReveal onLoad className="absolute inset-0">
         <MediaFrame
           src={IMAGE_SLOTS.heroSpotlight.path}
-          alt={IMAGE_SLOTS.heroSpotlight.alt}
+          alt={imageAlt("heroSpotlight", locale)}
           priority
           className="absolute inset-0 h-full w-full"
-          devLabel="Hero — Fahrzeug-Spotlight (dunkel, Nacht-Showroom)"
+          devLabel="Hero — vehicle spotlight (dark, night showroom)"
         />
       </ImageReveal>
 
@@ -39,31 +46,29 @@ export function Hero() {
             <span className="text-ink-600" aria-hidden="true">
               ·
             </span>
-            <span>Autohaus &amp; Meisterwerkstatt</span>
+            <span>{t("metaTag")}</span>
           </Reveal>
 
           <Reveal delay={0.08}>
             <h1 className="text-ink-50 text-balance max-w-4xl text-[2.5rem] leading-[1.05] font-semibold tracking-tight sm:text-6xl lg:text-7xl">
-              Premiumfahrzeuge.
+              {t("headline1")}
               <br />
-              Persönlich beraten.
+              {t("headline2")}
               <br />
-              <span className="text-accent-400">Vertrauen erfahren.</span>
+              <span className="text-accent-400">{t("headline3")}</span>
             </h1>
           </Reveal>
 
           <Reveal delay={0.16}>
             <p className="text-ink-200 mt-7 max-w-xl text-base leading-relaxed sm:text-lg">
-              Ihr Premium-Autohaus in {company.address.city} für hochwertige Neu- und
-              Gebrauchtwagen — mit persönlicher Beratung, transparenter Finanzierung und eigener
-              Meisterwerkstatt.
+              {t("subtext", { city: company.address.city })}
             </p>
           </Reveal>
 
           <Reveal delay={0.24} className="mt-9 flex flex-col gap-3 sm:flex-row">
-            <Button href={primaryCta.href}>{primaryCta.label}</Button>
-            <Button href={secondaryCta.href} variant="secondary">
-              {secondaryCta.label}
+            <Button href={primaryCtaHref}>{tCta("requestVehicle")}</Button>
+            <Button href={secondaryCtaHref} variant="secondary">
+              {tCta("bookTestDrive")}
             </Button>
           </Reveal>
 
@@ -72,14 +77,13 @@ export function Hero() {
             className="border-line-500/50 text-ink-400 mt-12 flex flex-wrap gap-x-8 gap-y-3 border-t pt-6 font-mono text-xs sm:text-sm"
           >
             <span>
-              <span className="text-ink-50">{company.vehicleStockCount}+</span> Fahrzeuge im
-              Bestand
+              <span className="text-ink-50">{company.vehicleStockCount}+</span> {t("stockLabel")}
             </span>
             <span>
-              <span className="text-ink-50">{company.hoursSales[0]?.hours}</span> Mo–Fr
+              <span className="text-ink-50">{text.hoursSales[0]?.hours}</span> {t("hoursShortLabel")}
             </span>
             <span>
-              Seit <span className="text-ink-50">{company.foundingYear}</span>
+              {t("sinceLabel")} <span className="text-ink-50">{company.foundingYear}</span>
             </span>
           </Reveal>
         </div>

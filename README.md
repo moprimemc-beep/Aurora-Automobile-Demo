@@ -33,11 +33,12 @@ Der Build wurde lokal verifiziert: `npm run lint`, `npm run typecheck` und
 |---|---|
 | Framework | Next.js 16 (App Router, React 19, Server Components) |
 | Sprache | TypeScript (strict, `noUncheckedIndexedAccess`) |
+| i18n | next-intl (Englisch Standard, Deutsch unter `/de`, siehe Abschnitt 4) |
 | Styling | Tailwind CSS v4 (CSS-first `@theme`-Tokens, keine `tailwind.config.js` nötig) |
 | Motion | Framer Motion (scroll-reveals, Bild-Masken, respektiert `prefers-reduced-motion`) |
 | Icons | lucide-react (Social-Icons sind eigene, reduzierte SVG-Glyphen — lucide führt seit v1 keine Marken-/Plattform-Logos mehr) |
 | Formulare | React Hook Form + Zod |
-| E-Mail-Versand | Resend-API via `fetch` (kein SDK, siehe Abschnitt 7) |
+| E-Mail-Versand | Resend-API via `fetch` (kein SDK, siehe Abschnitt 8) |
 | Lint/Format | ESLint 9 (flat config) + Prettier + `prettier-plugin-tailwindcss` |
 
 Bewusst **nicht** verwendet: Google Fonts / `next/font/google` (Build-Risiko
@@ -52,31 +53,79 @@ Soll eine lizenzierte Marken-Schrift ergänzt werden, kann sie über
 
 ```
 src/
-  app/                    Next.js App Router — Seiten, Layouts, SEO-Routen
-    fahrzeuge/ leistungen/ showroom/ kontakt/ probefahrt/
-    impressum/ datenschutz/ api/contact/
-    layout.tsx            Root-Layout, Metadata, Viewport-Sperre, Schema.org
-    sitemap.ts robots.ts manifest.ts
-    icon.tsx apple-icon.tsx opengraph-image.tsx twitter-image.tsx
+  app/
+    [locale]/               Lokalisierte Seiten (params.locale = "en" | "de")
+      fahrzeuge/ leistungen/ showroom/ kontakt/ probefahrt/
+      impressum/ datenschutz/ not-found.tsx
+      layout.tsx            Locale-Root-Layout, Metadata, Viewport-Sperre, Schema.org
+      opengraph-image.tsx twitter-image.tsx   (lokalisierter Text)
+    api/contact/            Formular-API-Route (nicht lokalisiert)
+    sitemap.ts robots.ts manifest.ts          (nicht lokalisiert, listen beide Sprachen)
+    icon.tsx apple-icon.tsx                   (Favicon, sprachunabhängig)
+    globals.css
+  i18n/
+    routing.ts             Locales, Default-Locale, Präfix-Strategie
+    navigation.ts           Locale-bewusste Link/usePathname/useRouter-Wrapper
+    request.ts               next-intl Request-Konfiguration
+  messages/
+    en.json de.json         Vollständige UI-Übersetzungskataloge
+  proxy.ts                  next-intl Middleware (Next.js "Proxy"-Konvention)
   components/
     ui/                   Design-System (Button, Container, Section, Logo, MediaFrame, …)
-    layout/                Navbar, MobileMenu, Footer
+    layout/                Navbar, MobileMenu, Footer, LanguageSwitcher
     sections/              Hero, BrandStatement, ServicesTeaser, ProcessSection, …
     vehicles/              VehicleCard, VehicleGrid, VehicleFilter
     forms/                 ContactForm, Formularfelder
     motion/                Reveal, ImageReveal (scroll-/mount-Animationen)
   lib/
     content/               company.ts, services.ts, vehicles.ts, images.ts, nav.ts, process.ts
-    validation/            Zod-Schemas
+                            (zweisprachige Inhalte über getCompanyText(locale) /
+                            getServiceCategories(locale) / getProcessSteps(locale))
+    validation/            Zod-Schemas (locale-neutrale Enum-Keys, übersetzte Fehlermeldungen)
+    seo.ts                 hreflang-/canonical-Helfer
     motion.ts schema.ts cn.ts
   hooks/                  useScrollLock, useFocusTrap
 public/
-  images/{hero,showroom,vehicles,team,og,logo}/   Bild-Zielordner (siehe Abschnitt 6)
+  images/{hero,showroom,vehicles,team,og,logo}/   Bild-Zielordner (siehe Abschnitt 7)
 ```
 
 ---
 
-## 4. Design-Tokens & Farbsystem
+## 4. Mehrsprachigkeit (i18n)
+
+Die Website ist vollständig zweisprachig (Englisch/Deutsch), umgesetzt mit
+[next-intl](https://next-intl.dev).
+
+- **Englisch ist die Standardsprache.** Beim ersten Aufruf von
+  `aurora-automobile.de` (ohne Sprachpräfix) wird die englische Version
+  ausgeliefert.
+- **Deutsch liegt unter `/de`** (z. B. `/de/fahrzeuge`, `/de/kontakt`) —
+  dieselbe URL-Struktur wie Englisch, nur mit `/de`-Präfix
+  (`localePrefix: "as-needed"`, siehe `src/i18n/routing.ts`).
+- **Sprach-Switch:** In der Desktop-Navigation immer sichtbar rechts neben
+  dem CTA-Button, im mobilen Menü zusätzlich oben im Overlay — nie hinter
+  einem Untermenü versteckt, ein Klick/Tap genügt (`LanguageSwitcher.tsx`).
+  Der Switch wechselt die Sprache auf der aktuell geöffneten Seite, nicht
+  nur auf der Startseite.
+- **Rückkehrende Besucher:** Nach einem manuellen Sprachwechsel merkt sich
+  next-intl die Wahl per Cookie — ein späterer Aufruf der Startseite ohne
+  Präfix zeigt dann automatisch wieder die zuletzt gewählte Sprache. Für
+  neue Besucher ohne Cookie bleibt Englisch der Standard.
+- **Übersetzungsquellen:**
+  - UI-Mikrotexte (Navigation, Buttons, Formular-Labels, Rechtstexte) in
+    `src/messages/en.json` / `de.json`.
+  - Geschäftsinhalte mit Datenstruktur (Leistungskatalog, Prozessschritte,
+    Unternehmensbeschreibung, Werte, Gründe, Öffnungszeiten) in
+    `src/lib/content/*.ts` über `getServiceCategories(locale)`,
+    `getProcessSteps(locale)` und `getCompanyText(locale)`.
+  - Bild-Alt-Texte in `src/lib/content/images.ts` (`imageAlt(key, locale)`).
+- **SEO:** Jede Seite liefert `alternates.canonical` und
+  `alternates.languages` (inkl. `x-default`) für korrektes hreflang
+  (`src/lib/seo.ts`). Die Sitemap listet beide Sprachversionen jeder Seite.
+- Rechtlich relevante Inhalte (Impressum, Datenschutz) liegen vollständig
+  und unabhängig in beiden Sprachen vor, nicht maschinell übersetzt.
+
+## 5. Design-Tokens & Farbsystem
 
 Definiert in `src/app/globals.css` über Tailwind v4 `@theme`. Zentrale Tokens:
 
@@ -98,9 +147,9 @@ Tokens ergänzen das System. Alle Animationen laufen ausschließlich über
 
 ---
 
-## 5. Mobile Viewport & Zoom-Sperre
+## 6. Mobile Viewport & Zoom-Sperre
 
-`src/app/layout.tsx` exportiert die Next.js-Viewport-Konfiguration mit
+`src/app/[locale]/layout.tsx` exportiert die Next.js-Viewport-Konfiguration mit
 `minimumScale/maximumScale: 1` und `userScalable: false`. Vertikales Scrollen
 bleibt jederzeit uneingeschränkt:
 
@@ -113,7 +162,7 @@ bleibt jederzeit uneingeschränkt:
 
 ---
 
-## 6. Bild-Konfiguration
+## 7. Bild-Konfiguration
 
 `src/components/ui/MediaFrame.tsx` prüft serverseitig (`fs.existsSync`), ob
 eine Datei unter dem erwarteten Pfad liegt. Fehlt sie, erscheint ein
@@ -164,7 +213,7 @@ oder bei Bedarf durch eine Aufnahme ohne Markenanlehnung ersetzen.
 
 ---
 
-## 7. Formular-Konfiguration
+## 8. Formular-Konfiguration
 
 Das Kontakt-/Probefahrt-Formular (`/kontakt`, `/probefahrt`) ist technisch
 vollständig implementiert (Client-Validierung via Zod, Server-Route
@@ -186,21 +235,21 @@ Resend-`fetch`-Aufrufs einsetzen, ohne das Frontend anzupassen.
 
 ---
 
-## 8. SEO
+## 9. SEO
 
 - Pro Seite eigene `Metadata` (Title, Description, `alternates.canonical`).
 - `sitemap.ts` / `robots.ts` (App-Router-Dateikonvention).
 - `manifest.ts` → `/manifest.webmanifest`.
 - `icon.tsx` / `apple-icon.tsx` / `opengraph-image.tsx` / `twitter-image.tsx`
   generieren Favicon und Social-Preview-Bilder zur Laufzeit (`next/og`) —
-  funktionieren unabhängig vom Bild-Upload aus Abschnitt 6.
+  funktionieren unabhängig vom Bild-Upload aus Abschnitt 7.
 - Schema.org `AutoDealer`-JSON-LD im Root-Layout (`src/lib/schema.ts`) mit
   bestätigter Adresse, Öffnungszeiten, `sameAs`-Social-Links und dem
   angegebenen Google-Bewertungsprofil.
 
 ---
 
-## 9. Fahrzeugbestand — bewusst ohne erfundene Daten
+## 10. Fahrzeugbestand — bewusst ohne erfundene Daten
 
 Es liegen aktuell **keine strukturierten Einzelfahrzeugdaten** vor (nur die
 bestätigte Gesamtzahl „180+ Fahrzeuge" und die Spezialisierungen). Gemäß
@@ -217,11 +266,11 @@ Verfügbarkeiten erfunden.
 
 ---
 
-## 10. Deployment (Vercel)
+## 11. Deployment (Vercel)
 
 1. Repository in Vercel importieren, Framework „Next.js" wird automatisch
    erkannt.
-2. Umgebungsvariablen aus Abschnitt 7 in den Vercel-Projekteinstellungen
+2. Umgebungsvariablen aus Abschnitt 8 in den Vercel-Projekteinstellungen
    hinterlegen (optional, für aktiven Formularversand).
 3. Produktions-Domain setzen und `siteUrl` in
    `src/lib/content/company.ts` entsprechend anpassen (aktuell
@@ -229,24 +278,24 @@ Verfügbarkeiten erfunden.
 
 ---
 
-## 11. Launch-Checkliste
+## 12. Launch-Checkliste
 
 - [ ] Finale Domain geprüft und `siteUrl` (`src/lib/content/company.ts`)
       aktualisiert
 - [ ] Canonical-URLs geprüft (automatisch aus `siteUrl` abgeleitet)
 - [ ] Social-Media-URLs verifiziert (`company.socials` — aktuell aus
       Handles abgeleitet, nicht einzeln bestätigt)
-- [x] Bilddateien vollständig eingebunden (16/16, siehe Abschnitt 6)
+- [x] Bilddateien vollständig eingebunden (16/16, siehe Abschnitt 7)
 - [ ] Bildrechte an allen verwendeten Aufnahmen bestätigt — insbesondere
       `reception-lounge.jpg` markenrechtlich prüfen (Kühlergrill-Ähnlichkeit,
-      siehe Hinweis in Abschnitt 6)
-- [ ] Echte Fahrzeugdaten angebunden (Abschnitt 9) oder Bestandsseite bewusst
+      siehe Hinweis in Abschnitt 7)
+- [ ] Echte Fahrzeugdaten angebunden (Abschnitt 10) oder Bestandsseite bewusst
       im aktuellen „Beratung statt Online-Bestand"-Zustand belassen
 - [ ] Impressum-Angaben (Handelsregister, USt-ID) durch echte Daten ersetzt
       und juristisch geprüft
 - [ ] Datenschutzerklärung juristisch geprüft, insbesondere Abschnitt
       „Hosting" (konkreten Anbieter ergänzen)
-- [ ] Formularversand konfiguriert (Abschnitt 7) und Spam-Schutz
+- [ ] Formularversand konfiguriert (Abschnitt 8) und Spam-Schutz
       (Honeypot ist implementiert; optional zusätzlich Rate-Limiting auf
       Infrastrukturebene ergänzen)
 - [ ] OpenGraph-/Twitter-Vorschau nach Bild-Upload erneut geprüft
@@ -258,3 +307,5 @@ Verfügbarkeiten erfunden.
 - [ ] Kontaktlinks (`tel:`/`mailto:`) geprüft
 - [ ] Tracking/Analytics erst nach rechtlicher Freigabe und
       Consent-Management aktivieren (aktuell nicht integriert)
+- [x] Englisch/Deutsch vollständig geprüft (Navigation, Formulare, Impressum,
+      Datenschutz, OpenGraph-Bilder, hreflang) — siehe Abschnitt 4

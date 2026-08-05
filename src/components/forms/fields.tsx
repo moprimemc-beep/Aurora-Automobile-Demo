@@ -93,12 +93,15 @@ export function SelectField({
   optional,
   className,
   options,
+  optionLabels,
   placeholder,
   ...rest
 }: Omit<FieldWrapperProps, "children"> &
   Omit<React.SelectHTMLAttributes<HTMLSelectElement>, "id" | "className"> & {
     className?: string;
     options: readonly string[];
+    /** Optional: value -> angezeigtes Label (z. B. übersetzt), sonst wird value selbst angezeigt. */
+    optionLabels?: Record<string, string>;
     placeholder: string;
   }) {
   return (
@@ -114,7 +117,7 @@ export function SelectField({
           <option value="">{placeholder}</option>
           {options.map((option) => (
             <option key={option} value={option}>
-              {option}
+              {optionLabels?.[option] ?? option}
             </option>
           ))}
         </select>

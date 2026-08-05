@@ -1,15 +1,16 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
 import { primaryNav } from "@/lib/content/nav";
 
 export function DesktopNavLinks() {
   const pathname = usePathname();
+  const t = useTranslations("nav");
 
   return (
-    <nav className="hidden items-center gap-9 lg:flex" aria-label="Hauptnavigation">
+    <nav className="hidden items-center gap-9 lg:flex" aria-label={t("primaryLabel")}>
       {primaryNav.map((item) => {
         const active = pathname === item.href;
         return (
@@ -22,7 +23,7 @@ export function DesktopNavLinks() {
               active ? "text-accent-400" : "text-ink-200",
             )}
           >
-            {item.label}
+            {t(item.key)}
           </Link>
         );
       })}

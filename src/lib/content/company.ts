@@ -1,15 +1,18 @@
+import type { Locale } from "@/i18n/routing";
+
 /**
  * Bestätigte Unternehmensdaten — Aurora Automobile GmbH.
  * Laut Auftraggeber vollständig fiktiv und ausschließlich für Demo-,
  * Design- und Präsentationszwecke. Vor echtem Launch prüfen (siehe README).
+ *
+ * Locale-unabhängige Fakten (Adresse, Telefonnummern, Rechtsdaten, Social
+ * Links, Kennzahlen) stehen hier. Übersetzte Inhalte (Slogan, Beschreibung,
+ * Werte, Gründe, Öffnungszeiten-Labels) kommen aus getCompanyText(locale).
  */
 
 export const company = {
   name: "Aurora Automobile GmbH",
   shortName: "Aurora Automobile",
-  slogan: "Premiumfahrzeuge. Persönlich beraten. Vertrauen erfahren.",
-  description:
-    "Aurora Automobile ist Ihr Premium-Autohaus für hochwertige Neu- und Gebrauchtwagen. Mit persönlicher Beratung, transparenten Finanzierungsangeboten und einem modernen Servicecenter begleiten wir unsere Kunden von der ersten Probefahrt bis weit über den Fahrzeugkauf hinaus.",
   foundingYear: 2016,
   employeeCount: 27,
   vehicleStockCount: 180,
@@ -18,7 +21,6 @@ export const company = {
     street: "Berliner Allee 128",
     zip: "40212",
     city: "Düsseldorf",
-    country: "Deutschland",
     countryCode: "DE",
   },
 
@@ -53,6 +55,46 @@ export const company = {
     vatId: "DE327845619",
   },
 
+  socials: {
+    instagram: { label: "@auroraautomobile", href: "https://instagram.com/auroraautomobile" },
+    facebook: { label: "Aurora Automobile", href: "https://facebook.com/auroraautomobile" },
+    linkedin: {
+      label: "Aurora Automobile GmbH",
+      href: "https://linkedin.com/company/aurora-automobile",
+    },
+    youtube: { label: "Aurora Automobile", href: "https://youtube.com/@auroraautomobile" },
+    tiktok: { label: "@auroraautomobile", href: "https://tiktok.com/@auroraautomobile" },
+  },
+
+  googleProfile: {
+    rating: 4.9,
+    reviewCount: 327,
+  },
+} as const;
+
+export const siteUrl = "https://www.aurora-automobile.de";
+
+type Hours = { day: string; hours: string };
+
+type CompanyText = {
+  countryDisplay: string;
+  slogan: string;
+  description: string;
+  testDriveNote: string;
+  hoursSales: Hours[];
+  hoursWorkshop: Hours[];
+  paymentMethods: string[];
+  specializations: string[];
+  values: string[];
+  reasons: { title: string; text: string }[];
+};
+
+const de: CompanyText = {
+  countryDisplay: "Deutschland",
+  slogan: "Premiumfahrzeuge. Persönlich beraten. Vertrauen erfahren.",
+  description:
+    "Aurora Automobile ist Ihr Premium-Autohaus für hochwertige Neu- und Gebrauchtwagen. Mit persönlicher Beratung, transparenten Finanzierungsangeboten und einem modernen Servicecenter begleiten wir unsere Kunden von der ersten Probefahrt bis weit über den Fahrzeugkauf hinaus.",
+  testDriveNote: "Montag bis Samstag nach Terminvereinbarung.",
   hoursSales: [
     { day: "Montag", hours: "09:00 – 18:30 Uhr" },
     { day: "Dienstag", hours: "09:00 – 18:30 Uhr" },
@@ -62,7 +104,6 @@ export const company = {
     { day: "Samstag", hours: "09:00 – 15:00 Uhr" },
     { day: "Sonntag", hours: "Geschlossen" },
   ],
-
   hoursWorkshop: [
     { day: "Montag", hours: "07:30 – 17:30 Uhr" },
     { day: "Dienstag", hours: "07:30 – 17:30 Uhr" },
@@ -72,18 +113,7 @@ export const company = {
     { day: "Samstag", hours: "08:00 – 12:00 Uhr" },
     { day: "Sonntag", hours: "Geschlossen" },
   ],
-
-  testDriveNote: "Montag bis Samstag nach Terminvereinbarung.",
-
-  paymentMethods: [
-    "EC-Karte",
-    "Visa",
-    "Mastercard",
-    "Banküberweisung",
-    "Finanzierung",
-    "Leasing",
-  ],
-
+  paymentMethods: ["EC-Karte", "Visa", "Mastercard", "Banküberweisung", "Finanzierung", "Leasing"],
   specializations: [
     "Premiumfahrzeuge",
     "Junge Gebrauchtwagen",
@@ -94,7 +124,6 @@ export const company = {
     "Elektrofahrzeuge",
     "Hybridfahrzeuge",
   ],
-
   values: [
     "Vertrauen",
     "Qualität",
@@ -105,7 +134,6 @@ export const company = {
     "Zuverlässigkeit",
     "Leidenschaft für Automobile",
   ],
-
   reasons: [
     {
       title: "Qualitätsgeprüfte Fahrzeuge",
@@ -148,22 +176,97 @@ export const company = {
       text: "Betreuung, die über den Fahrzeugkauf hinausgeht.",
     },
   ],
+};
 
-  socials: {
-    instagram: { label: "@auroraautomobile", href: "https://instagram.com/auroraautomobile" },
-    facebook: { label: "Aurora Automobile", href: "https://facebook.com/auroraautomobile" },
-    linkedin: {
-      label: "Aurora Automobile GmbH",
-      href: "https://linkedin.com/company/aurora-automobile",
+const en: CompanyText = {
+  countryDisplay: "Germany",
+  slogan: "Premium vehicles. Personal advice. Trust earned.",
+  description:
+    "Aurora Automobile is your premium dealership for high-quality new and used vehicles. With personal advice, transparent financing options and a modern service centre, we support our customers from the first test drive well beyond the purchase.",
+  testDriveNote: "Monday to Saturday, by appointment.",
+  hoursSales: [
+    { day: "Monday", hours: "09:00 – 18:30" },
+    { day: "Tuesday", hours: "09:00 – 18:30" },
+    { day: "Wednesday", hours: "09:00 – 18:30" },
+    { day: "Thursday", hours: "09:00 – 18:30" },
+    { day: "Friday", hours: "09:00 – 18:30" },
+    { day: "Saturday", hours: "09:00 – 15:00" },
+    { day: "Sunday", hours: "Closed" },
+  ],
+  hoursWorkshop: [
+    { day: "Monday", hours: "07:30 – 17:30" },
+    { day: "Tuesday", hours: "07:30 – 17:30" },
+    { day: "Wednesday", hours: "07:30 – 17:30" },
+    { day: "Thursday", hours: "07:30 – 17:30" },
+    { day: "Friday", hours: "07:30 – 17:30" },
+    { day: "Saturday", hours: "08:00 – 12:00" },
+    { day: "Sunday", hours: "Closed" },
+  ],
+  paymentMethods: ["EC card", "Visa", "Mastercard", "Bank transfer", "Financing", "Leasing"],
+  specializations: [
+    "Premium vehicles",
+    "Young used cars",
+    "SUVs",
+    "Sedans",
+    "Estate cars",
+    "Sports cars",
+    "Electric vehicles",
+    "Hybrid vehicles",
+  ],
+  values: [
+    "Trust",
+    "Quality",
+    "Transparency",
+    "Sustainability",
+    "Innovation",
+    "Customer focus",
+    "Reliability",
+    "Passion for automobiles",
+  ],
+  reasons: [
+    {
+      title: "Quality-checked vehicles",
+      text: "Every vehicle undergoes a thorough inspection before it joins our stock.",
     },
-    youtube: { label: "Aurora Automobile", href: "https://youtube.com/@auroraautomobile" },
-    tiktok: { label: "@auroraautomobile", href: "https://tiktok.com/@auroraautomobile" },
-  },
+    {
+      title: "Transparent vehicle history",
+      text: "You receive clear, traceable information on every vehicle.",
+    },
+    {
+      title: "Personal advice",
+      text: "Our team takes the time to answer your questions — from selection to handover.",
+    },
+    {
+      title: "Fair trade-ins",
+      text: "We assess your current vehicle transparently and fairly.",
+    },
+    {
+      title: "Tailored financing",
+      text: "Together we find a financing or leasing solution that fits you.",
+    },
+    {
+      title: "Master workshop",
+      text: "Maintenance, repair and detailing from a single source — right on site.",
+    },
+    {
+      title: "Vehicle warranty",
+      text: "Extra peace of mind through our warranty packages.",
+    },
+    {
+      title: "Digital vehicle valuation",
+      text: "A quick, straightforward first estimate of your vehicle's value, done digitally.",
+    },
+    {
+      title: "Fast registration",
+      text: "We handle the registration process for you.",
+    },
+    {
+      title: "Premium customer service",
+      text: "Support that continues well beyond the vehicle purchase.",
+    },
+  ],
+};
 
-  googleProfile: {
-    rating: 4.9,
-    reviewCount: 327,
-  },
-} as const;
-
-export const siteUrl = "https://www.aurora-automobile.de";
+export function getCompanyText(locale: Locale): CompanyText {
+  return locale === "de" ? de : en;
+}

@@ -1,28 +1,33 @@
+/**
+ * Nur Struktur/Hrefs — Labels kommen aus den Übersetzungsdateien
+ * (messages/en.json, messages/de.json, Namespace "nav"/"footer").
+ */
+
 export const primaryNav = [
-  { label: "Fahrzeuge", href: "/fahrzeuge" },
-  { label: "Leistungen", href: "/leistungen" },
-  { label: "Showroom", href: "/showroom" },
-  { label: "Kontakt", href: "/kontakt" },
+  { key: "vehicles", href: "/fahrzeuge" },
+  { key: "services", href: "/leistungen" },
+  { key: "showroom", href: "/showroom" },
+  { key: "contact", href: "/kontakt" },
 ] as const;
 
 export const footerNav = {
-  unternehmen: [
-    { label: "Showroom", href: "/showroom" },
-    { label: "Leistungen", href: "/leistungen" },
-    { label: "Fahrzeuge", href: "/fahrzeuge" },
-    { label: "Probefahrt", href: "/probefahrt" },
+  company: [
+    { key: "showroom", href: "/showroom" },
+    { key: "services", href: "/leistungen" },
+    { key: "vehicles", href: "/fahrzeuge" },
+    { key: "testDrive", href: "/probefahrt" },
   ],
   service: [
-    { label: "Kontakt", href: "/kontakt" },
-    { label: "Finanzierung", href: "/leistungen#ankauf-finanzierung" },
-    { label: "Werkstatt", href: "/leistungen#werkstatt" },
-    { label: "Fahrzeugankauf", href: "/leistungen#ankauf-finanzierung" },
+    { key: "contact", href: "/kontakt" },
+    { key: "financing", href: "/leistungen#ankauf-finanzierung" },
+    { key: "workshop", href: "/leistungen#werkstatt" },
+    { key: "buyback", href: "/leistungen#ankauf-finanzierung" },
   ],
   legal: [
-    { label: "Impressum", href: "/impressum" },
-    { label: "Datenschutz", href: "/datenschutz" },
+    { key: "imprint", href: "/impressum" },
+    { key: "privacy", href: "/datenschutz" },
   ],
 } as const;
 
-export const primaryCta = { label: "Fahrzeug anfragen", href: "/kontakt" } as const;
-export const secondaryCta = { label: "Probefahrt vereinbaren", href: "/probefahrt" } as const;
+export const primaryCtaHref = "/kontakt";
+export const secondaryCtaHref = "/probefahrt";

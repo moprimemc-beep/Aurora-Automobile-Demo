@@ -1,8 +1,21 @@
 import { NextResponse } from "next/server";
-import { contactFormSchema } from "@/lib/validation/contact";
+import { createContactFormSchema } from "@/lib/validation/contact";
 import { company } from "@/lib/content/company";
 
 export const runtime = "nodejs";
+
+/**
+ * Server-seitige Re-Validierung braucht keine lokalisierten Meldungen — der
+ * Client validiert bereits sprachabhängig; diese Texte werden dem Nutzer
+ * nicht angezeigt.
+ */
+const contactFormSchema = createContactFormSchema({
+  name: "Invalid name.",
+  email: "Invalid email address.",
+  subject: "Invalid subject.",
+  message: "Message too short.",
+  privacy: "Privacy consent required.",
+});
 
 /**
  * Formularversand ist technisch vollständig vorbereitet, aber bewusst
@@ -41,26 +54,37 @@ export async function POST(request: Request) {
         ok: false,
         error: "not_configured",
         message:
-          "Der Formularversand ist noch nicht konfiguriert. Bitte kontaktieren Sie uns direkt telefonisch oder per E-Mail.",
+          "Form submission is not configured yet. Please contact us directly by phone or email.",
       },
       { status: 503 },
     );
   }
 
-  const { name, company: senderCompany, email, phone, subject, vehicleInterest, preferredDate, message } =
-    parsed.data;
+  const {
+    name,
+    company: senderCompany,
+    email,
+    phone,
+    subject,
+    subjectLabel,
+    vehicleInterest,
+    preferredDate,
+    message,
+  } = parsed.data;
+
+  const displaySubject = subjectLabel || subject;
 
   const lines = [
-    `Neue Anfrage über die Website — ${subject}`,
+    `New website enquiry — ${displaySubject}`,
     "",
     `Name: ${name}`,
-    senderCompany ? `Unternehmen: ${senderCompany}` : null,
-    `E-Mail: ${email}`,
-    phone ? `Telefon: ${phone}` : null,
-    vehicleInterest ? `Gewünschtes Fahrzeug: ${vehicleInterest}` : null,
-    preferredDate ? `Wunschtermin: ${preferredDate}` : null,
+    senderCompany ? `Company: ${senderCompany}` : null,
+    `Email: ${email}`,
+    phone ? `Phone: ${phone}` : null,
+    vehicleInterest ? `Vehicle of interest: ${vehicleInterest}` : null,
+    preferredDate ? `Preferred date: ${preferredDate}` : null,
     "",
-    "Nachricht:",
+    "Message:",
     message,
   ].filter((line): line is string => line !== null);
 
@@ -75,7 +99,7 @@ export async function POST(request: Request) {
         from: fromEmail,
         to: [toEmail],
         reply_to: email,
-        subject: `Website-Anfrage: ${subject}`,
+        subject: `Website enquiry: ${displaySubject}`,
         text: lines.join("\n"),
       }),
     });

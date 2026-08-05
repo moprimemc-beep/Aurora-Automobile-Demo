@@ -1,13 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
 import { CheckCircle2, AlertCircle } from "lucide-react";
 import { TextField, TextareaField, SelectField, CheckboxField } from "@/components/forms/fields";
 import { Button } from "@/components/ui/Button";
 import { TextLink } from "@/components/ui/TextLink";
-import { contactFormSchema, contactSubjects, type ContactFormValues } from "@/lib/validation/contact";
+import {
+  createContactFormSchema,
+  contactSubjectKeys,
+  type ContactFormValues,
+  type ContactSubjectKey,
+} from "@/lib/validation/contact";
 import { company } from "@/lib/content/company";
 
 type SubmitState = "idle" | "submitting" | "success" | "not_configured" | "error";
@@ -17,7 +23,29 @@ export function ContactForm({
 }: {
   variant?: "general" | "probefahrt";
 }) {
+  const t = useTranslations("form");
   const [state, setState] = useState<SubmitState>("idle");
+
+  const schema = useMemo(
+    () =>
+      createContactFormSchema({
+        name: t("validationName"),
+        email: t("validationEmail"),
+        subject: t("validationSubject"),
+        message: t("validationMessage"),
+        privacy: t("validationPrivacy"),
+      }),
+    [t],
+  );
+
+  const subjectOptions = useMemo(
+    () =>
+      contactSubjectKeys.map((key) => ({
+        value: key,
+        label: t(`subject_${key}` as `subject_${ContactSubjectKey}`),
+      })),
+    [t],
+  );
 
   const {
     register,
@@ -25,9 +53,9 @@ export function ContactForm({
     reset,
     formState: { errors },
   } = useForm<ContactFormValues>({
-    resolver: zodResolver(contactFormSchema),
+    resolver: zodResolver(schema),
     defaultValues: {
-      subject: variant === "probefahrt" ? "Probefahrt" : undefined,
+      subject: variant === "probefahrt" ? "test_drive" : undefined,
       privacyConsent: false,
     },
   });
@@ -35,10 +63,11 @@ export function ContactForm({
   async function onSubmit(values: ContactFormValues) {
     setState("submitting");
     try {
+      const subjectLabel = t(`subject_${values.subject}` as `subject_${ContactSubjectKey}`);
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        body: JSON.stringify({ ...values, subjectLabel }),
       });
 
       if (response.ok) {
@@ -63,10 +92,8 @@ export function ContactForm({
       <div className="border-line-500 flex flex-col items-start gap-4 rounded-lg border p-8">
         <CheckCircle2 className="text-accent-500 h-8 w-8" aria-hidden="true" />
         <div>
-          <h3 className="text-ink-50 text-lg font-medium">Ihre Anfrage wurde gesendet.</h3>
-          <p className="text-ink-400 mt-2 text-sm leading-relaxed">
-            Vielen Dank — unser Team meldet sich zeitnah bei Ihnen zurück.
-          </p>
+          <h3 className="text-ink-50 text-lg font-medium">{t("successTitle")}</h3>
+          <p className="text-ink-400 mt-2 text-sm leading-relaxed">{t("successText")}</p>
         </div>
       </div>
     );
@@ -77,12 +104,9 @@ export function ContactForm({
       <div className="border-line-500 flex flex-col items-start gap-4 rounded-lg border p-8">
         <AlertCircle className="text-accent-500 h-8 w-8" aria-hidden="true" />
         <div>
-          <h3 className="text-ink-50 text-lg font-medium">
-            Formularversand derzeit nicht verfügbar
-          </h3>
+          <h3 className="text-ink-50 text-lg font-medium">{t("notConfiguredTitle")}</h3>
           <p className="text-ink-400 mt-2 max-w-md text-sm leading-relaxed">
-            Der direkte Versand über dieses Formular ist aktuell nicht aktiv. Bitte kontaktieren
-            Sie uns in der Zwischenzeit telefonisch oder per E-Mail — wir melden uns umgehend.
+            {t("notConfiguredText")}
           </p>
           <div className="mt-5 flex flex-col gap-2 text-sm">
             <a href={company.contact.phone.href} className="text-accent-400 hover:underline">
@@ -98,7 +122,7 @@ export function ContactForm({
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate className="flex flex-col gap-6">
+    <form onSubmit={handleSubmit(onSubmit)} noValidate className="relative flex flex-col gap-6">
       {/* Honeypot — für Menschen unsichtbar */}
       <div className="absolute -left-[9999px]" aria-hidden="true">
         <label htmlFor="website">Website</label>
@@ -112,23 +136,28 @@ export function ContactForm({
       </div>
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-        <TextField label="Name" autoComplete="name" error={errors.name?.message} {...register("name")} />
         <TextField
-          label="Unternehmen"
+          label={t("nameLabel")}
+          autoComplete="name"
+          error={errors.name?.message}
+          {...register("name")}
+        />
+        <TextField
+          label={t("companyLabel")}
           optional
           autoComplete="organization"
           error={errors.company?.message}
           {...register("company")}
         />
         <TextField
-          label="E-Mail"
+          label={t("emailLabel")}
           type="email"
           autoComplete="email"
           error={errors.email?.message}
           {...register("email")}
         />
         <TextField
-          label="Telefon"
+          label={t("phoneLabel")}
           type="tel"
           optional
           autoComplete="tel"
@@ -138,23 +167,24 @@ export function ContactForm({
       </div>
 
       <SelectField
-        label="Anliegen"
-        placeholder="Bitte wählen"
-        options={contactSubjects}
+        label={t("subjectLabel")}
+        placeholder={t("subjectPlaceholder")}
+        options={subjectOptions.map((o) => o.value)}
+        optionLabels={Object.fromEntries(subjectOptions.map((o) => [o.value, o.label]))}
         error={errors.subject?.message}
         {...register("subject")}
       />
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
         <TextField
-          label="Gewünschtes Fahrzeug"
+          label={t("vehicleInterestLabel")}
           optional
-          placeholder="z. B. Marke, Modell"
+          placeholder={t("vehicleInterestPlaceholder")}
           error={errors.vehicleInterest?.message}
           {...register("vehicleInterest")}
         />
         <TextField
-          label="Wunschtermin"
+          label={t("preferredDateLabel")}
           optional
           type="date"
           error={errors.preferredDate?.message}
@@ -163,12 +193,10 @@ export function ContactForm({
       </div>
 
       <TextareaField
-        label="Nachricht"
+        label={t("messageLabel")}
         error={errors.message?.message}
         placeholder={
-          variant === "probefahrt"
-            ? "Für welches Fahrzeug möchten Sie eine Probefahrt vereinbaren?"
-            : "Wie können wir Ihnen helfen?"
+          variant === "probefahrt" ? t("messagePlaceholderTestDrive") : t("messagePlaceholderGeneral")
         }
         {...register("message")}
       />
@@ -176,11 +204,11 @@ export function ContactForm({
       <CheckboxField
         label={
           <>
-            Ich stimme der Verarbeitung meiner Angaben gemäß{" "}
+            {t("privacyPrefix")}{" "}
             <TextLink href="/datenschutz" showArrow={false} className="inline">
-              Datenschutzerklärung
+              {t("privacyLinkText")}
             </TextLink>{" "}
-            zu.
+            {t("privacySuffix")}
           </>
         }
         error={errors.privacyConsent?.message}
@@ -189,13 +217,12 @@ export function ContactForm({
 
       {state === "error" && (
         <p role="alert" className="text-sm text-red-400">
-          Beim Versand ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut oder kontaktieren
-          Sie uns direkt unter {company.contact.phone.display}.
+          {t("errorText", { phone: company.contact.phone.display })}
         </p>
       )}
 
       <Button type="submit" disabled={state === "submitting"} className="self-start">
-        {state === "submitting" ? "Wird gesendet …" : "Nachricht senden"}
+        {state === "submitting" ? t("submitting") : t("submit")}
       </Button>
     </form>
   );

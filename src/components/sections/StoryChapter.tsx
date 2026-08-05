@@ -1,12 +1,14 @@
+import { getLocale } from "next-intl/server";
 import { Section } from "@/components/ui/Section";
 import { Container } from "@/components/ui/Container";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { MediaFrame } from "@/components/ui/MediaFrame";
 import { Reveal } from "@/components/motion/Reveal";
 import { cn } from "@/lib/cn";
-import { IMAGE_SLOTS, type ImageSlotKey } from "@/lib/content/images";
+import { IMAGE_SLOTS, imageAlt, type ImageSlotKey } from "@/lib/content/images";
+import type { Locale } from "@/i18n/routing";
 
-export function StoryChapter({
+export async function StoryChapter({
   number,
   eyebrow,
   title,
@@ -24,6 +26,7 @@ export function StoryChapter({
   tone?: "base" | "raised";
 }) {
   const imageSlot = IMAGE_SLOTS[image];
+  const locale = (await getLocale()) as Locale;
 
   return (
     <Section tone={tone}>
@@ -32,9 +35,9 @@ export function StoryChapter({
           <Reveal className={cn("relative aspect-[4/5] lg:h-full", reverse && "lg:order-2")}>
             <MediaFrame
               src={imageSlot.path}
-              alt={imageSlot.alt}
+              alt={imageAlt(image, locale)}
               className="h-full min-h-[340px] rounded-lg"
-              devLabel={`Kapitel ${number}: ${title}`}
+              devLabel={`Chapter ${number}: ${title}`}
             />
           </Reveal>
 

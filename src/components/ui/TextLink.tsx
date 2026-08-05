@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
 
 export function TextLink({
@@ -32,9 +32,14 @@ export function TextLink({
     </>
   );
 
-  if (external) {
+  if (external || !href.startsWith("/")) {
     return (
-      <a href={href} target="_blank" rel="noopener noreferrer" className={classes}>
+      <a
+        href={href}
+        target={external ? "_blank" : undefined}
+        rel={external ? "noopener noreferrer" : undefined}
+        className={classes}
+      >
         {content}
       </a>
     );

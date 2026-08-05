@@ -1,7 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
 import Image from "next/image";
-import Link from "next/link";
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
 import { BrandGlyph } from "@/components/ui/BrandGlyph";
 import { IMAGE_SLOTS } from "@/lib/content/images";
@@ -20,7 +21,7 @@ function fileExists(publicPath: string) {
  * originale, code-basierte Wortmarke im gleichen Aufbau (Bogen-Symbol +
  * "AURORA AUTOMOBILE").
  */
-export function Logo({
+export async function Logo({
   className,
   href = "/",
   size = "md",
@@ -30,6 +31,7 @@ export function Logo({
   size?: "sm" | "md";
 }) {
   const logoExists = fileExists(IMAGE_SLOTS.logoDark.path);
+  const t = await getTranslations("nav");
 
   return (
     <Link
@@ -38,12 +40,12 @@ export function Logo({
         "text-ink-50 hover:text-accent-400 inline-flex items-center gap-2.5 transition-colors",
         className,
       )}
-      aria-label="Aurora Automobile — Startseite"
+      aria-label={t("homeAria")}
     >
       {logoExists ? (
         <Image
           src={IMAGE_SLOTS.logoDark.path}
-          alt={IMAGE_SLOTS.logoDark.alt}
+          alt=""
           width={180}
           height={60}
           priority

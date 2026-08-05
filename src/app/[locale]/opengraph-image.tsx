@@ -4,7 +4,19 @@ import { company } from "@/lib/content/company";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export default function TwitterImage() {
+const headlines = {
+  de: ["Premiumfahrzeuge.", "Persönlich beraten.", "Vertrauen erfahren."],
+  en: ["Premium vehicles.", "Personal advice.", "Trust earned."],
+} satisfies Record<"de" | "en", [string, string, string]>;
+
+export default async function OpengraphImage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const lines = headlines[locale === "de" ? "de" : "en"];
+
   return new ImageResponse(
     (
       <div
@@ -53,13 +65,14 @@ export default function TwitterImage() {
             letterSpacing: -1,
           }}
         >
-          <span>Premiumfahrzeuge.</span>
-          <span>Persönlich beraten.</span>
-          <span style={{ color: "#ddc190" }}>Vertrauen erfahren.</span>
+          <span>{lines[0]}</span>
+          <span>{lines[1]}</span>
+          <span style={{ color: "#ddc190" }}>{lines[2]}</span>
         </div>
 
         <div style={{ display: "flex", marginTop: 48, color: "#6b6d71", fontSize: 24 }}>
-          {company.address.city} · Autohaus &amp; Meisterwerkstatt
+          {company.address.city} ·{" "}
+          {locale === "de" ? "Autohaus & Meisterwerkstatt" : "Dealership & Master Workshop"}
         </div>
       </div>
     ),

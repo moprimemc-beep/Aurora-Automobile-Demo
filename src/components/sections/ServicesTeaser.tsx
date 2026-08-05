@@ -1,12 +1,17 @@
 import { ChevronRight } from "lucide-react";
+import { getLocale, getTranslations } from "next-intl/server";
 import { Section } from "@/components/ui/Section";
 import { Container } from "@/components/ui/Container";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { TextLink } from "@/components/ui/TextLink";
 import { Reveal } from "@/components/motion/Reveal";
-import { allServices, featuredServiceSlugs } from "@/lib/content/services";
+import { getAllServices, featuredServiceSlugs } from "@/lib/content/services";
+import type { Locale } from "@/i18n/routing";
 
-export function ServicesTeaser() {
+export async function ServicesTeaser() {
+  const t = await getTranslations("servicesTeaser");
+  const locale = (await getLocale()) as Locale;
+  const allServices = getAllServices(locale);
   const services = featuredServiceSlugs
     .map((slug) => allServices.find((s) => s.slug === slug))
     .filter((s): s is NonNullable<typeof s> => Boolean(s));
@@ -17,16 +22,16 @@ export function ServicesTeaser() {
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <Reveal>
-              <SectionLabel number="03">Leistungen</SectionLabel>
+              <SectionLabel number="03">{t("eyebrow")}</SectionLabel>
             </Reveal>
             <Reveal delay={0.06}>
               <h2 className="text-ink-50 mt-6 max-w-xl text-3xl leading-tight font-semibold tracking-tight sm:text-4xl lg:text-5xl">
-                Service, der weiterdenkt.
+                {t("title")}
               </h2>
             </Reveal>
           </div>
           <Reveal delay={0.1}>
-            <TextLink href="/leistungen">Alle Leistungen ansehen</TextLink>
+            <TextLink href="/leistungen">{t("viewAll")}</TextLink>
           </Reveal>
         </div>
 

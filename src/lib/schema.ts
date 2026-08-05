@@ -1,6 +1,7 @@
-import { company, siteUrl } from "@/lib/content/company";
+import { company, getCompanyText, siteUrl } from "@/lib/content/company";
+import type { Locale } from "@/i18n/routing";
 
-const GERMAN_TO_ENGLISH_DAY: Record<string, string> = {
+const DAY_TO_SCHEMA: Record<string, string> = {
   Montag: "Monday",
   Dienstag: "Tuesday",
   Mittwoch: "Wednesday",
@@ -8,29 +9,40 @@ const GERMAN_TO_ENGLISH_DAY: Record<string, string> = {
   Freitag: "Friday",
   Samstag: "Saturday",
   Sonntag: "Sunday",
+  Monday: "Monday",
+  Tuesday: "Tuesday",
+  Wednesday: "Wednesday",
+  Thursday: "Thursday",
+  Friday: "Friday",
+  Saturday: "Saturday",
+  Sunday: "Sunday",
 };
+
+const CLOSED_LABELS = new Set(["Geschlossen", "Closed"]);
 
 function toOpeningHoursSpecification(hours: readonly { day: string; hours: string }[]) {
   return hours
-    .filter((h) => h.hours !== "Geschlossen")
+    .filter((h) => !CLOSED_LABELS.has(h.hours))
     .map((h) => {
       const [open = "", close = ""] = h.hours.replace(" Uhr", "").split(" – ");
       return {
         "@type": "OpeningHoursSpecification",
-        dayOfWeek: GERMAN_TO_ENGLISH_DAY[h.day] ?? h.day,
+        dayOfWeek: DAY_TO_SCHEMA[h.day] ?? h.day,
         opens: open,
         closes: close,
       };
     });
 }
 
-export function getOrganizationSchema() {
+export function getOrganizationSchema(locale: Locale) {
+  const text = getCompanyText(locale);
+
   return {
     "@context": "https://schema.org",
     "@type": "AutoDealer",
     name: company.name,
-    slogan: company.slogan,
-    description: company.description,
+    slogan: text.slogan,
+    description: text.description,
     url: siteUrl,
     telephone: company.contact.phone.href.replace("tel:", ""),
     email: company.contact.email.display,
@@ -43,7 +55,7 @@ export function getOrganizationSchema() {
       addressLocality: company.address.city,
       addressCountry: company.address.countryCode,
     },
-    openingHoursSpecification: toOpeningHoursSpecification(company.hoursSales),
+    openingHoursSpecification: toOpeningHoursSpecification(text.hoursSales),
     sameAs: Object.values(company.socials).map((s) => s.href),
     aggregateRating: {
       "@type": "AggregateRating",

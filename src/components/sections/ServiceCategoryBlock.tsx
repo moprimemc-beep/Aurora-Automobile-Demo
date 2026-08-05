@@ -1,3 +1,4 @@
+import { getLocale, getTranslations } from "next-intl/server";
 import { Section } from "@/components/ui/Section";
 import { Container } from "@/components/ui/Container";
 import { SectionLabel } from "@/components/ui/SectionLabel";
@@ -6,10 +7,11 @@ import { TextLink } from "@/components/ui/TextLink";
 import { Reveal } from "@/components/motion/Reveal";
 import { cn } from "@/lib/cn";
 import type { ImageSlotKey } from "@/lib/content/images";
-import { IMAGE_SLOTS } from "@/lib/content/images";
+import { IMAGE_SLOTS, imageAlt } from "@/lib/content/images";
 import type { ServiceCategory } from "@/lib/content/services";
+import type { Locale } from "@/i18n/routing";
 
-export function ServiceCategoryBlock({
+export async function ServiceCategoryBlock({
   category,
   number,
   image,
@@ -23,6 +25,8 @@ export function ServiceCategoryBlock({
   tone?: "base" | "raised";
 }) {
   const imageSlot = IMAGE_SLOTS[image];
+  const t = await getTranslations("servicesPage");
+  const locale = (await getLocale()) as Locale;
 
   return (
     <Section id={category.id} tone={tone}>
@@ -31,9 +35,9 @@ export function ServiceCategoryBlock({
           <Reveal className={cn("relative aspect-[4/5] lg:h-full", reverse && "lg:order-2")}>
             <MediaFrame
               src={imageSlot.path}
-              alt={imageSlot.alt}
+              alt={imageAlt(image, locale)}
               className="h-full min-h-[320px] rounded-lg"
-              devLabel={`Leistungskategorie: ${category.title}`}
+              devLabel={`Service category: ${category.title}`}
             />
           </Reveal>
 
@@ -69,7 +73,7 @@ export function ServiceCategoryBlock({
             </ul>
 
             <Reveal delay={0.1} className="mt-8">
-              <TextLink href="/kontakt">Beratung anfragen</TextLink>
+              <TextLink href="/kontakt">{t("consultationCta")}</TextLink>
             </Reveal>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
 
 type Variant = "primary" | "secondary" | "ghost";
@@ -45,9 +45,14 @@ export function Button(props: ButtonProps) {
 
   if (isLinkButton(props)) {
     const { href, external } = props;
-    if (external) {
+    if (external || !href.startsWith("/")) {
       return (
-        <a href={href} target="_blank" rel="noopener noreferrer" className={classes}>
+        <a
+          href={href}
+          target={external ? "_blank" : undefined}
+          rel={external ? "noopener noreferrer" : undefined}
+          className={classes}
+        >
           {children}
         </a>
       );
