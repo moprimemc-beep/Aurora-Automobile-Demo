@@ -36,11 +36,11 @@ export function MobileMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () =
           role="dialog"
           aria-modal="true"
           aria-label={tNav("primaryLabel")}
-          initial={prefersReducedMotion ? false : { opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={prefersReducedMotion ? undefined : { opacity: 0 }}
-          transition={{ duration: 0.2 }}
-          className="bg-base-950 fixed inset-0 z-50 flex flex-col lg:hidden"
+          initial={prefersReducedMotion ? false : { clipPath: "inset(0 0 100% 0)" }}
+          animate={{ clipPath: "inset(0 0 0% 0)" }}
+          exit={prefersReducedMotion ? undefined : { clipPath: "inset(0 0 100% 0)" }}
+          transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+          className="bg-base-950 fixed inset-0 z-50 flex flex-col opacity-100 lg:hidden"
         >
           <div className="flex items-center justify-between px-6 py-5 sm:px-8">
             <LanguageSwitcher className="text-sm" />

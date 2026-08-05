@@ -109,14 +109,21 @@ export function SelectField({
       {(id, describedBy) => (
         <select
           id={id}
+          style={{ colorScheme: "dark" }}
           className={cn(inputBase, borderClass(error))}
           aria-invalid={Boolean(error)}
           aria-describedby={describedBy}
           {...rest}
         >
-          <option value="">{placeholder}</option>
+          <option value="" style={{ backgroundColor: "#0b0c0f", color: "#9a9c9f" }}>
+            {placeholder}
+          </option>
           {options.map((option) => (
-            <option key={option} value={option}>
+            <option
+              key={option}
+              value={option}
+              style={{ backgroundColor: "#0b0c0f", color: "#f6f5f1" }}
+            >
               {optionLabels?.[option] ?? option}
             </option>
           ))}
